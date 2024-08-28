@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.review.messaging.ReviewMessageProducer;
 import com.microservice.review.model.Review;
+import com.microservice.review.model.ReviewMessageDTO;
 import com.microservice.review.service.ReviewService;
 
 @RestController
@@ -39,11 +40,10 @@ public class ReviewController {
 	@PostMapping
 	@Transactional
 	@ResponseStatus(HttpStatus.CREATED)
-	public String addReview(@RequestParam Long companyId, 
+	public ReviewMessageDTO addReview(@RequestParam Long companyId, 
 							@RequestBody Review review) {
 		reviewService.addReview(companyId, review);
-		reviewMessageProducer.sendMessage(review);
-		return "added successfully";
+		return reviewMessageProducer.sendMessage(review);
 	}
 	
 	@GetMapping("id/{id}")

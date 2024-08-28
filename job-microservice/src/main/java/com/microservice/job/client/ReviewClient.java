@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.microservice.job.model.Review;
 
-@FeignClient(name = "REVIEW-MICROSERVICE")
+@FeignClient(name = "REVIEW-MICROSERVICE" , url = "${review-microservice.url}")
 public interface ReviewClient {
 	
 	@GetMapping("/api/reviews")

@@ -1,0 +1,97 @@
+version: '3.7'
+services:
+  config-server:
+    image: abulbudz/config-server:latest
+    container_name: config-server
+    ports: 
+      - 8080:8080
+    depends_on:
+      - eureka
+    networks:
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    
+  eureka:
+    image: abulbudz/servicereg:latest
+    container_name: eureka
+    ports:
+      - 8761:8761
+    depends_on:
+      - rabbitmq
+      - zipkin
+    networks:
+      - microservice-network
+
+  company-microservice:
+    image: abulbudz/company-microservice:latest
+    container_name: company-microservice
+    ports:
+      - 8081:8081
+    depends_on: 
+      - eureka
+      - config-server
+    networks:
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  job-microservice:
+    image: abulbudz/job-microservice:latest
+    container_name: job-microservice
+    ports:
+      - 8082:8082
+    depends_on:
+      - eureka
+      - config-server
+    networks:
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka:8761/eureka
+
+  review-microservice:
+    image: abulbudz/review-microservice:latest
+    container_name: review-microservice
+    ports:
+      - 8083:8083
+    depends_on:
+      - eureka
+      - config-server
+    networks:
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - microservice-network
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
+    networks:
+      - microservice-network
+
+  gateway:
+    image: abulbudz/jobp-gateway:latest
+    container_name: gateway
+    ports:
+      - 8084:8084
+    depends_on:
+      - eureka
+    networks:
+      - microservice-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+networks:
+  microservice-network:
+    driver: bridge

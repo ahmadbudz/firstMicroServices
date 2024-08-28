@@ -13,14 +13,15 @@ public class ReviewMessageProducer {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 	
-	public void sendMessage(Review review) {
+	public ReviewMessageDTO sendMessage(Review review) {
 		ReviewMessageDTO reviewMessageDTO = new ReviewMessageDTO();
 		reviewMessageDTO.setId(review.getId());
 		reviewMessageDTO.setTitle(review.getTitle());
 		reviewMessageDTO.setDescription(review.getDescription());
 		reviewMessageDTO.setRating(review.getRating());
-		reviewMessageDTO.setComanyId(review.getCompanyId());
+		reviewMessageDTO.setCompanyId(review.getCompanyId());
 		rabbitTemplate.convertAndSend("companyRatingQueue", reviewMessageDTO);
+		return reviewMessageDTO;
 	}
 	
 }

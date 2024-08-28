@@ -6,7 +6,7 @@ public class ReviewMessageDTO {
 	private String title;
 	private String description;
 	private double rating;
-	private Long comanyId;
+	private Long companyId;
 
 	public Long getId() {
 		return id;
@@ -40,12 +40,12 @@ public class ReviewMessageDTO {
 		this.rating = rating;
 	}
 
-	public Long getComanyId() {
-		return comanyId;
+	public Long getCompanyId() {
+		return companyId;
 	}
 
-	public void setComanyId(Long comanyId) {
-		this.comanyId = comanyId;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 }

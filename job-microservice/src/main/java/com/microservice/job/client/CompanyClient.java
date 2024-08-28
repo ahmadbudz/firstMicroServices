@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.microservice.job.model.Company;
 
-@FeignClient(name = "COMPANY-MICROSERVICE")
+@FeignClient(name = "COMPANY-MICROSERVICE", url = "${company-microservice.url}")
 public interface CompanyClient {
 	@GetMapping("/api/companies/id/{id}")
 	Company getCompany(@PathVariable("id") Long id);
