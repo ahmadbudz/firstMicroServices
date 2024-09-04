@@ -1,25 +1,20 @@
 package com.microservices.ahmadB.gateway.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class SecurityConfig {
 	
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
+	public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 		http
-			 .csrf(csrf -> csrf.disable())
-	         .authorizeHttpRequests(authorize -> authorize
-	                .anyRequest().authenticated())
-	        .oauth2Login(Customizer.withDefaults());
-		
+			.csrf(csrf -> csrf.disable())
+			.authorizeExchange(auth -> auth.anyExchange().authenticated())
+			.oauth2Client(Customizer.withDefaults());
 		return http.build();
 	}
 	
