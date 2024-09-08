@@ -80,17 +80,17 @@ services:
     networks:
       - microservice-network
 
-  gateway:
-    image: abulbudz/jobp-gateway:latest
-    container_name: gateway
+  nginx:
+    build:
+      context: C:\Users\Ahmad.Budairi\Desktop\learnNginx\nginx\
     ports:
-      - 8084:8084
-    depends_on:
-      - eureka
+      - 80:80
+    volumes:
+      - C:\Users\Ahmad.Budairi\Desktop\learnNginx\nginx\conf.d\default.conf:/etc/nginx/conf.d/default.conf
+      - C:\Users\Ahmad.Budairi\Desktop\learnNginx\cache:/var/cache/nginx
+      - C:\Users\Ahmad.Budairi\Desktop\learnNginx\nginx\conf.d\nginx.conf:/etc/nginx/nginx.conf
     networks:
       - microservice-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
 
 networks:
   microservice-network:

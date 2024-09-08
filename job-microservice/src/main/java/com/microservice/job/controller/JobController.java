@@ -26,20 +26,20 @@ public class JobController {
 	@Autowired
 	private JobService jobService;
 	
-	@GetMapping
+	@GetMapping({"", "/"})
 	@ResponseStatus(HttpStatus.OK)
 	public List<JobDTO> findAll(){
 		return jobService.findAll();
 	}
 	
-	@PostMapping
+	@PostMapping({"", "/"})
 	@ResponseStatus(HttpStatus.CREATED)
 	public String createJob(@RequestBody Job job) {
 		jobService.createJob(job);
 		return "created successfully";
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<JobDTO> getJobById(@PathVariable Long id) {
 		JobDTO jobWithCompantDTO = jobService.getJobById(id);
 		if(jobWithCompantDTO != null) {
@@ -49,7 +49,7 @@ public class JobController {
 		}
 	}
 	
-	@DeleteMapping("/id/{id}")
+	@DeleteMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> deleteJob(@PathVariable Long id){
 		boolean deleted = jobService.deleteJobById(id);
 		if(deleted) {
@@ -59,7 +59,7 @@ public class JobController {
 		}
 	}
 	
-	@PutMapping("/id/{id}")
+	@PutMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> updateJob(@PathVariable Long id, @RequestBody Job updatedJob){
 		boolean updated = jobService.updateJob(id, updatedJob);
 		if(updated) {

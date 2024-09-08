@@ -31,13 +31,13 @@ public class ReviewController {
 	@Autowired
 	private ReviewMessageProducer reviewMessageProducer;
 	
-	@GetMapping
+	@GetMapping({"","/"})
 	@ResponseStatus(HttpStatus.OK)
 	public List<Review> getAllReviews(@RequestParam Long companyId){
 		return reviewService.getAllReviews(companyId);
 	}
 	
-	@PostMapping
+	@PostMapping({"","/"})
 	@Transactional
 	@ResponseStatus(HttpStatus.CREATED)
 	public ReviewMessageDTO addReview(@RequestParam Long companyId, 
@@ -46,13 +46,13 @@ public class ReviewController {
 		return reviewMessageProducer.sendMessage(review);
 	}
 	
-	@GetMapping("id/{id}")
+	@GetMapping({"/id/{id}", "/id,{id}/"})
 	@ResponseStatus(HttpStatus.OK)
 	public Review getReview(@PathVariable Long id) {
 		return reviewService.getReview(id);
 	}
 	
-	@PutMapping("id/{id}")
+	@PutMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> updateReview(@PathVariable Long id, 
 											   @RequestBody Review review) {
 		boolean updated = reviewService.updateReview(id, review);
@@ -63,7 +63,7 @@ public class ReviewController {
 		}
 	}
 	
-	@DeleteMapping("id/{id}")
+	@DeleteMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> deleteReview(@PathVariable Long id) {
 		boolean deleted = reviewService.deleteReview(id);
 		if(deleted) {
@@ -73,7 +73,7 @@ public class ReviewController {
 		}
 	}
 	
-	@GetMapping("/averageRating")
+	@GetMapping({"/averageRating", "/averageRating/"})
 	public Double getAverageReviewRating(@RequestParam Long companyId) {
 		List<Review> reviews = reviewService.getAllReviews(companyId);
 		return reviews.stream().mapToDouble(Review::getRating).average().orElse(0.0);

@@ -27,13 +27,13 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 	
-	@GetMapping
+	@GetMapping({"", "/"})
 	@ResponseStatus(HttpStatus.OK)
 	public List<Company> getAllCompanies(){
 		return companyService.getAllCompanies();
 	}
 	
-	@PutMapping("/id/{id}")
+	@PutMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody Company updatedCompany) {
 		boolean updated = companyService.updateCompany(updatedCompany, id);
 		if(updated) {
@@ -43,14 +43,14 @@ public class CompanyController {
 		}
 	}
 	
-	@PostMapping
+	@PostMapping({"","/"})
 	@ResponseStatus(HttpStatus.CREATED)
 	public String addCompany(@RequestBody Company company) {
 		companyService.createCompany(company);
 		return "Company Added successfully";
 	}
 	
-	@DeleteMapping("/id/{id}")
+	@DeleteMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<String> deleteCompany(@PathVariable Long id){
 		boolean deleted = companyService.deleteCompanyById(id);
 		if(deleted) {
@@ -60,7 +60,7 @@ public class CompanyController {
 		}
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping({"/id/{id}", "/id/{id}/"})
 	public ResponseEntity<Company> getCompany(@PathVariable Long id) {
 		Company job = companyService.getCompanyById(id);
 		if(job != null) {
